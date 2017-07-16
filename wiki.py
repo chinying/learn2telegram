@@ -3,9 +3,8 @@ import requests
 import json
 
 def convert_to_url(term):
-    return "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&redirects=1&exintro=&explaintext=&titles=" + urllib.parse.quote(term)
+    return "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&redirects=1&exintro=&explaintext=&titles=" + urllib.parse.quote(term.title())
 
-# TODO redirect based on term
 def fetch_extract(term):
     text = []
     rs = requests.get(convert_to_url(term))
