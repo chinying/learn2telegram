@@ -33,7 +33,7 @@ def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
 
 def echo(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
+    bot.send_message(chat_id=update.message.chat_id, text="Type /help for more info")
 
 def wiki_extract_handler(bot, update, args):
     extract = wiki.fetch_extract(' '.join(args))
