@@ -7,13 +7,13 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 MERCURY_KEY = os.environ.get("MERCURY_KEY")
 
-def mercury(url, flag="full"):
+def mercury(url, flag="excerpt"):
     _url = "https://mercury.postlight.com/parser?url=" + url
     headers = {'x-api-key': MERCURY_KEY}
     res = requests.get(_url, headers=headers).json()
     if flag == "excerpt":
         return res["excerpt"]
-    else: # this is default
+    else: # return full content
         return strip_html(res["content"])
     
 # see https://tutorialedge.net/post/python/removing-html-from-string/
