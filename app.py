@@ -12,6 +12,8 @@ PORT = int(os.environ.get('PORT', '5000'))
 APPNAME = os.environ.get("HEROKU_APP_NAME")
 ENV_STATUS = os.environ.get("PROJ_ENV", "PROD")
 
+MAX_MSG_LEN = 4096
+
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -42,7 +44,7 @@ def help_handler(bot, update):
                 "/article <url> (full|excerpt) for summary"
                ]
     message = "\n".join(commands)
-    bot.send_message(chat_id=update.message.chat_id, text=message)
+    bot.send_message(chat_id=update.message.chat_id, text=message)    
 
 def wiki_extract_handler(bot, update, args):
     extract = wiki.fetch_extract(' '.join(args))
@@ -58,12 +60,18 @@ def long_url_handler(bot, update, args):
 
 def mercury_handler(bot, update, args):
     allowed_flags = ["full", "excerpt"]
-    flag = "full"
+    flag = "excerpt"
     if len(args) > 1:
         if (args[1] in allowed_flags):
+            print("fetching with flag " + args[1])
             flag = args[1]
     reply = mercury_postlight.mercury(args[0], flag)
-    bot.send_message(chat_id=update.message.chat_id, text=reply)
+    try:
+        bot.send_message(chat_id=update.message.chat_id, text=reply)
+    except:
+        msglen = len(reply)
+        for i in range((22288 // 4096) + 1):
+            bot.send_message(chat_id=update.message.chat_id, text=reply[MAX_MSG_LEN * i : MAX_MSG_LEN * (i + 1)])
 
 def duck_handler(bot, update, args):
     term = " ".join(args)
