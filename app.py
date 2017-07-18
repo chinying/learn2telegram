@@ -4,7 +4,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram.error import (TelegramError, Unauthorized, BadRequest, 
                             TimedOut, ChatMigrated, NetworkError)
 from dotenv import load_dotenv, find_dotenv
-import wiki, bus, divers
+import wiki, bus, divers, mercury_postlight
 
 load_dotenv(find_dotenv())
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
@@ -47,6 +47,15 @@ def long_url_handler(bot, update, args):
     reply = divers.long_url(args[0])
     bot.send_message(chat_id=update.message.chat_id, text=reply)
 
+def mercury_handler(bot, update, args):
+    allowed_flags = ["full", "excerpt"]
+    flag = "full"
+    if len(args) > 1:
+        if (args[1] in allowed_flags):
+            flag = args[1]
+    reply = mercury_postlight.mercury(args[0], flag)
+    bot.send_message(chat_id=update.message.chat_id, text=reply)
+
 def main():
     updater = Updater(TELEGRAM_TOKEN)
     dispatcher = updater.dispatcher
@@ -56,6 +65,7 @@ def main():
     dispatcher.add_handler(CommandHandler('wiki', wiki_extract_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('bus', bus_id_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('expand', long_url_handler, pass_args=True))
+    dispatcher.add_handler(CommandHandler('article', mercury_handler, pass_args=True))
 
     echo_handler = MessageHandler(Filters.text, echo)
     dispatcher.add_handler(echo_handler)
