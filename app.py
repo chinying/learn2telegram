@@ -4,7 +4,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram.error import (TelegramError, Unauthorized, BadRequest, 
                             TimedOut, ChatMigrated, NetworkError)
 from dotenv import load_dotenv, find_dotenv
-import wiki, bus, misc
+import wiki, bus, divers
 
 load_dotenv(find_dotenv())
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
@@ -44,7 +44,7 @@ def bus_id_handler(bot, update, args):
     bot.send_message(chat_id=update.message.chat_id, text=reply)
 
 def long_url_handler(bot, update, args):
-    reply = misc.long_url(args[0])
+    reply = divers.long_url(args[0])
     bot.send_message(chat_id=update.message.chat_id, text=reply)
 
 def main():
