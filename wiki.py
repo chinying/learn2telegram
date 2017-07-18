@@ -1,6 +1,5 @@
 import urllib.parse
 import requests
-import json
 
 def convert_to_url(term):
     return "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&redirects=1&exintro=&explaintext=&titles=" + urllib.parse.quote(term.title())
