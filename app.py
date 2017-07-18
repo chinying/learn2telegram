@@ -35,6 +35,15 @@ def start(bot, update):
 def echo(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="Type /help for more info")
 
+def help_handler(bot, update):
+    commands = ["/wiki <term> to search wikipedia",
+                "/bus <stop number> to get bus timings",
+                "/expand <url>",
+                "/article <url> (full|excerpt) for summary"
+               ]
+    message = "\n".join(commands)
+    bot.send_message(chat_id=update.message.chat_id, text=message)
+
 def wiki_extract_handler(bot, update, args):
     extract = wiki.fetch_extract(' '.join(args))
     bot.send_message(chat_id=update.message.chat_id, text=extract)
@@ -62,6 +71,7 @@ def main():
     
     # handlers, think of this as your api
     dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(CommandHandler('help', help_handler))
     dispatcher.add_handler(CommandHandler('wiki', wiki_extract_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('bus', bus_id_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('expand', long_url_handler, pass_args=True))
