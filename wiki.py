@@ -1,8 +1,14 @@
+import re
 import urllib.parse
 import requests
 
 def convert_to_url(term):
     return "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&redirects=1&exintro=&explaintext=&titles=" + urllib.parse.quote(term.title())
+
+def cleanup(s):
+    pat = re.compile("(\s\s+)|(\\n\s+)")
+    s = re.sub(pat, " ", s)
+    return s
 
 def fetch_extract(term):
     text = []
@@ -12,6 +18,6 @@ def fetch_extract(term):
     for key in articles.keys():
         if key == "-1":
             return "No results found"
-        text.extend([articles[key]["extract"],  "see more at https://en.wikipedia.org/?curid=" + key])
-
+        text.extend([cleanup(articles[key]["extract"]),  "see more at https://en.wikipedia.org/?curid=" + key])
+    print(text)
     return "\n".join(text)
