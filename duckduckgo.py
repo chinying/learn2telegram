@@ -1,9 +1,11 @@
-import requests
+import utils
+import grequests
 
 def search(term, flags=None):
     url = "http://api.duckduckgo.com/?q=" + term + "&format=json"
-    r = requests.get(url)
-    res = r.json()
+    r = [grequests.get(url)]
+    grequests.map(r, utils.exception_handler)
+    res = r[0].response.json()
     _type = res["Type"]
     result = "No results found." # feels like code smell, if you forget to replace
     if _type == "A":

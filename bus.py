@@ -1,7 +1,8 @@
 import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv, find_dotenv
-import requests
+import utils
+import grequests
 
 load_dotenv(find_dotenv())
 LTA_TOKEN = os.environ.get("LTA_KEY")
@@ -25,11 +26,10 @@ def load_to_icon(s):
 def fetch_buses(stop_id):
     url = "http://datamall2.mytransport.sg/ltaodataservice/BusArrival?BusStopID=" + stop_id
     headers = {'AccountKey': LTA_TOKEN}
-    r = requests.get(url, headers=headers)
-    
+    r = [grequests.get(url, headers=headers)]
+    grequests.map(r, utils.exception_handler)
     ret = []
-    
-    response = r.json()["Services"]
+    response = r[0].response.json()["Services"]
     if len(response) == 0:
         return "invalid stop id"
     else:

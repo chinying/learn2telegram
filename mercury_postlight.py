@@ -1,7 +1,8 @@
 import os
 import re
 import html
-import requests
+import utils
+import grequests
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -10,7 +11,9 @@ MERCURY_KEY = os.environ.get("MERCURY_KEY")
 def mercury(url, flag="excerpt"):
     _url = "https://mercury.postlight.com/parser?url=" + url
     headers = {'x-api-key': MERCURY_KEY}
-    res = requests.get(_url, headers=headers).json()
+    r = [grequests.get(_url, headers=headers)]
+    grequests.map(r, utils.exception_handler)
+    res = r[0].response.json()
     if flag == "excerpt":
         return res["excerpt"]
     else: # return full content

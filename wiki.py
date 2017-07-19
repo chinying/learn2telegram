@@ -1,6 +1,7 @@
 import re
 import urllib.parse
-import requests
+import utils
+import grequests
 
 def convert_to_url(term):
     return "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&redirects=1&exintro=&explaintext=&titles=" + urllib.parse.quote(term.title())
@@ -12,9 +13,10 @@ def cleanup(s):
 
 def fetch_extract(term):
     text = []
-    rs = requests.get(convert_to_url(term))
+    rs = [grequests.get(convert_to_url(term))]
+    grequests.map(rs, utils.exception_handler)
 
-    articles = rs.json()["query"]["pages"]
+    articles = rs[0].response.json()["query"]["pages"]
     for key in articles.keys():
         if key == "-1":
             return "No results found"
