@@ -5,7 +5,7 @@ def search(term, flags=None):
     r = requests.get(url)
     res = r.json()
     _type = res["Type"]
-    result = ""
+    result = "No results found." # feels like code smell, if you forget to replace
     if _type == "A":
         result = "Type: {}\n{} \nTaken from {}".format(res["Entity"], res["AbstractText"], res["AbstractURL"])
     elif _type == "D":
