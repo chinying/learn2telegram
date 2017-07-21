@@ -15,9 +15,9 @@ def search(term, flags=None):
         result += infobox(res, {"Starring", "Released", "Running time"})
 
     if _type == "A":
-        result = "Type: {}\n{} \nTaken from {}".format(res["Entity"], res["AbstractText"], res["AbstractURL"])
+        result += "Type: {}\n{} \nTaken from {}".format(res["Entity"], res["AbstractText"], res["AbstractURL"])
     elif _type == "D":
-        result = "View disambugation page {}\n".format(res["AbstractURL"])
+        result += "View disambugation page {}\n".format(res["AbstractURL"])
         result += related(res)
     
     return "No results found." if result == "" else result
