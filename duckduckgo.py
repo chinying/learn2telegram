@@ -32,7 +32,7 @@ def infobox(res, wanted_keys):
     fl = filter((lambda j: j["label"] in wanted_keys), res["Infobox"]["content"])
     for f in fl:
         info.append("{}: {}".format(f["label"], f["value"]))
-    return "\n".join(info)
+    return "\n".join(info) + "\n"
 
 def related(res):
     results = []
