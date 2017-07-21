@@ -1,6 +1,7 @@
 import re
 import urllib.parse
 import utils
+import greq_pre
 import grequests
 
 def convert_to_url(term):
