@@ -31,6 +31,14 @@ def error_callback(bot, update, error):
         # handle all other telegram related errors
         logger.warning('Update "%s" caused error "%s"' % (update, error))
 
+def split_msg(bot, update, reply):
+    try:
+        bot.send_message(chat_id=update.message.chat_id, text=reply)
+    except:
+        msglen = len(reply)
+        for i in range((22288 // 4096) + 1):
+            bot.send_message(chat_id=update.message.chat_id, text=reply[MAX_MSG_LEN * i : MAX_MSG_LEN * (i + 1)])
+
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
 
@@ -48,8 +56,8 @@ def help_handler(bot, update):
 
 def wiki_extract_handler(bot, update, args):
     extract = wiki.fetch_extract(' '.join(args))
-    bot.send_message(chat_id=update.message.chat_id, text=extract)
-
+    split_msg(bot, update, extract)
+    
 def bus_id_handler(bot, update, args):
     reply = bus.fetch_buses(args[0])
     bot.send_message(chat_id=update.message.chat_id, text=reply)
@@ -66,12 +74,7 @@ def mercury_handler(bot, update, args):
             print("fetching with flag " + args[1])
             flag = args[1]
     reply = mercury_postlight.mercury(args[0], flag)
-    try:
-        bot.send_message(chat_id=update.message.chat_id, text=reply)
-    except:
-        msglen = len(reply)
-        for i in range((22288 // 4096) + 1):
-            bot.send_message(chat_id=update.message.chat_id, text=reply[MAX_MSG_LEN * i : MAX_MSG_LEN * (i + 1)])
+    split_msg(bot, update, reply)
 
 def duck_handler(bot, update, args):
     term = " ".join(args)
