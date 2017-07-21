@@ -7,15 +7,32 @@ def search(term, flags=None):
     grequests.map(r, utils.exception_handler)
     res = r[0].response.json()
     _type = res["Type"]
-    result = "No results found." # feels like code smell, if you forget to replace
+    result = ""
+
+    _entity = res["Entity"]
+    if _entity == "film":
+        result += infobox(res, {"Starring", "Released", "Running time"})
+
     if _type == "A":
         result = "Type: {}\n{} \nTaken from {}".format(res["Entity"], res["AbstractText"], res["AbstractURL"])
     elif _type == "D":
         result = "View disambugation page {}\n".format(res["AbstractURL"])
         result += related(res)
+    
+    return "No results found." if result == "" else result
 
-    return result
-            
+# untested
+def infobox(res, wanted_keys):
+    if res["Infobox"] == "":
+        return "No infobox"
+    info = []
+    
+    # feels like this can be more elegantly done, with a collect function of some sort
+    fl = filter((lambda j: j["label"] in wanted_keys), res["Infobox"]["content"])
+    for f in fl:
+        info.append("{}: {}".format(f["label"], f["value"]))
+    return "\n".join(info)
+
 def related(res):
     results = []
     topics = res["RelatedTopics"]
