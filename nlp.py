@@ -1,7 +1,7 @@
 import re 
 
-import spacy
-nlp = spacy.load('en')
+import en_core_web_sm
+nlp = en_core_web_sm.load()
 
 def parseText(s):
     return
