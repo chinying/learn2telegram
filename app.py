@@ -45,8 +45,8 @@ def start(bot, update):
 
 def echo(bot, update):
     text = update.message.text
-    nlp.extract_entity(text)
-    bot.send_message(chat_id=update.message.chat_id, text="Type /help for more info")
+    msg = nlp.extract_entity(text)
+    bot.send_message(chat_id=update.message.chat_id, text=msg)
 
 def help_handler(bot, update):
     commands = ["/wiki <term> to search wikipedia",
