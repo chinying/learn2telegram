@@ -5,6 +5,7 @@ from telegram.error import (TelegramError, Unauthorized, BadRequest,
                             TimedOut, ChatMigrated, NetworkError)
 from dotenv import load_dotenv, find_dotenv
 import wiki, bus, divers, mercury_postlight, duckduckgo
+import nlp
 
 load_dotenv(find_dotenv())
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
@@ -43,6 +44,8 @@ def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
 
 def echo(bot, update):
+    text = update.message.text
+    nlp.extract_entity(text)
     bot.send_message(chat_id=update.message.chat_id, text="Type /help for more info")
 
 def help_handler(bot, update):
