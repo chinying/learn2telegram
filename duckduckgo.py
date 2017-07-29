@@ -1,21 +1,31 @@
 import greq_pre
 import utils
 import grequests
+import re
 
 def search(term, flags=None):
-    url = "http://api.duckduckgo.com/?q=" + term + "&format=json"
+    url = "http://api.duckduckgo.com/?q=" + term + "&format=json&t=github.com/chinying/learn2telegram"
     r = [grequests.get(url)]
     grequests.map(r, utils.exception_handler)
     res = r[0].response.json()
     _type = res["Type"]
     result = ""
 
+    # TODO
+    if flags and "related" in flags:
+        print(related(res))
+
     _entity = res["Entity"]
     if _entity == "film":
         result += infobox(res, {"Starring", "Released", "Running time"})
 
     if _type == "A":
-        result += "Type: {}\n{} \nTaken from {}".format(res["Entity"], res["AbstractText"], res["AbstractURL"])
+        _entity = re.sub('(flatlist|hlist)', '', _entity)
+        _entity = re.sub('[{}|]', '', _entity)
+        indiv = _entity.split(",")
+        indiv = [t.strip() for t in indiv if t]
+        _entity = ", ".join(indiv)
+        result += "Type: {}\n{} \nTaken from {}".format(_entity, res["AbstractText"], res["AbstractURL"])
     elif _type == "D":
         result += "View disambugation page {}\n".format(res["AbstractURL"])
         result += related(res)
