@@ -100,7 +100,7 @@ def main():
     dispatcher.add_handler(CommandHandler('bus', bus_id_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('expand', long_url_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('article', mercury_handler, pass_args=True))
-    dispatcher.add_handler(CommandHandler('duck', duck_handler, pass_args=True))
+    dispatcher.add_handler(CommandHandler('answer', duck_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('dict', oxford_dict_handler, pass_args=True))
 
     echo_handler = MessageHandler(Filters.text, echo)
