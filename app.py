@@ -109,7 +109,7 @@ def main():
     dispatcher.add_error_handler(error)
 
     if ENV_STATUS == "DEV":
-        print("-- DEV ENV--")
+        print("-- DEV ENV --")
         updater.start_polling()
     else:
         updater.start_webhook(listen="0.0.0.0",
