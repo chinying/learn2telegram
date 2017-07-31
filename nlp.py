@@ -13,3 +13,8 @@ def extract_entity(s):
         print(ent.label_, ent.text)
         entities.append(ent.text)
     return entities
+
+def extract_tags(s):
+    doc = nlp(s)
+    for word in doc:
+        print(word.tag, word.tag_, word.pos, word.pos_)
