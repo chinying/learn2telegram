@@ -37,7 +37,12 @@ def infobox(res, wanted_keys):
     if res["Infobox"] == "":
         return "No infobox"
     info = []
-    
+
+    # TODO
+    if "_ALL_" in wanted_keys:
+        for row in res["Infobox"]["content"]:
+            info.append("{}: {}".format(row["label"], row["value"]))
+
     # feels like this can be more elegantly done, with a collect function of some sort
     fl = filter((lambda j: j["label"] in wanted_keys), res["Infobox"]["content"])
     for f in fl:
