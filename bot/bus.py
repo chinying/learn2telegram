@@ -1,8 +1,8 @@
 import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv, find_dotenv
-import utils
-import greq_pre
+import bot.utils as utils
+import bot.greq_pre
 import grequests
 
 load_dotenv(find_dotenv())

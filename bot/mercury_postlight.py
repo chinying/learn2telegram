@@ -1,8 +1,8 @@
 import os
 import re
 import html
-import utils
-import greq_pre
+import bot.utils as utils
+import bot.greq_pre
 import grequests
 from dotenv import load_dotenv, find_dotenv
 

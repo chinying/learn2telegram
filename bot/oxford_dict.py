@@ -1,8 +1,8 @@
 import os
-import greq_pre
+import bot.greq_pre
 import grequests
 from dotenv import load_dotenv, find_dotenv
-from utils import exception_handler
+from bot.utils import exception_handler
 
 load_dotenv(find_dotenv())
 OXFORD_APP_ID = os.environ.get("OXFORD_APP_ID") 

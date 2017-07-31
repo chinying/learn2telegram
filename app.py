@@ -4,8 +4,8 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram.error import (TelegramError, Unauthorized, BadRequest, 
                             TimedOut, ChatMigrated, NetworkError)
 from dotenv import load_dotenv, find_dotenv
-import wiki, bus, divers, mercury_postlight, duckduckgo, oxford_dict
-import nlp
+from bot import wiki, bus, divers, mercury_postlight, duckduckgo, oxford_dict
+from bot import nlp
 
 load_dotenv(find_dotenv())
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")

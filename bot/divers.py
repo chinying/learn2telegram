@@ -1,5 +1,5 @@
-import greq_pre
-import utils
+import bot.greq_pre
+import bot.utils as utils
 import grequests
 
 def long_url(url):

@@ -1,5 +1,5 @@
-import greq_pre
-import utils
+import bot.greq_pre
+import bot.utils as utils
 import grequests
 import re
 
@@ -12,8 +12,11 @@ def search(term, flags=None):
     result = ""
 
     # TODO
-    if flags and "related" in flags:
-        print(related(res))
+    if flags:
+        if "related" in flags:
+            print(related(res))
+        if "-a" in flags:
+            print(infobox(res, "_ALL_"))
 
     _entity = res["Entity"]
     if _entity == "film":
@@ -34,7 +37,7 @@ def search(term, flags=None):
 
 # untested
 def infobox(res, wanted_keys):
-    if res["Infobox"] == "":
+    if "Infobox" not in res or res["Infobox"] == "":
         return "No infobox"
     info = []
 

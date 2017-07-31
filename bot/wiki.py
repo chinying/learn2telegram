@@ -1,7 +1,7 @@
 import re
 import urllib.parse
-import utils
-import greq_pre
+import bot.utils as utils
+import bot.greq_pre
 import grequests
 
 def convert_to_url(term):
@@ -22,5 +22,4 @@ def fetch_extract(term):
         if key == "-1":
             return "No results found"
         text.extend([cleanup(articles[key]["extract"]),  "see more at https://en.wikipedia.org/?curid=" + key])
-    print(text)
     return "\n".join(text)
