@@ -45,7 +45,7 @@ def start(bot, update):
 
 def echo(bot, update):
     text = update.message.text
-    msg = nlp.extract_entity(text)
+    msg = nlp.parse_chat(text)
     bot.send_message(chat_id=update.message.chat_id, text=msg)
 
 def help_handler(bot, update):
