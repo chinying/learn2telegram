@@ -70,7 +70,7 @@ def long_url_handler(bot, update, args):
     bot.send_message(chat_id=update.message.chat_id, text=reply)
 
 def mercury_handler(bot, update, args):
-    allowed_flags = ["full", "excerpt"]
+    allowed_flags = ["full", "excerpt", "summary"]
     flag = "excerpt"
     if len(args) > 1:
         if (args[1] in allowed_flags):
