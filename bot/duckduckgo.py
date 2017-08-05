@@ -16,7 +16,7 @@ def search(term, flags=None):
         if "related" in flags:
             print(related(res))
         if "-a" in flags:
-            print(infobox(res, "_ALL_"))
+            print(infobox(res, {"_ALL_"}))
 
     _entity = res["Entity"]
     if _entity == "film":
@@ -24,8 +24,8 @@ def search(term, flags=None):
 
     if _type == "A":
         _entity = re.sub('(flatlist|hlist)', '', _entity)
-        _entity = re.sub('[{}|]', '', _entity)
-        indiv = _entity.split(",")
+        _entity = re.sub('[{}]', '', _entity)
+        indiv = _entity.split("|")
         indiv = [t.strip() for t in indiv if t]
         _entity = ", ".join(indiv)
         result += "Type: {}\n{} \nTaken from {}".format(_entity, res["AbstractText"], res["AbstractURL"])
