@@ -52,7 +52,8 @@ def help_handler(bot, update):
     commands = ["/wiki <term> to search wikipedia",
                 "/bus <stop number> to get bus timings",
                 "/expand <url>",
-                "/article <url> (full|excerpt) for summary"
+                "/article <url> (full|excerpt|summary) for summary",
+                "/dict <word / phrase>"
                ]
     message = "\n".join(commands)
     bot.send_message(chat_id=update.message.chat_id, text=message)    
