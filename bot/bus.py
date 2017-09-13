@@ -7,25 +7,28 @@ import grequests
 
 load_dotenv(find_dotenv())
 LTA_TOKEN = os.environ.get("LTA_KEY")
+NEXT_BUS = "NextBus"
+NEXT_BUS2 = "NextBus2"
+NEXT_BUS3 = "NextBus3"
 
 def parse_time(s):
     if len(s) == 0:
         return ""
-    t = datetime.strptime(s[:-6], '%Y-%m-%dT%H:%M:%S') + timedelta(hours=8)
+    t = datetime.strptime(s[:-6], '%Y-%m-%dT%H:%M:%S')
     return datetime.strftime(t, '%H:%M')
 
 def load_to_icon(s):
-    if s == "Limited Standing":
+    if s == "LSD":
         return "🔴"
-    elif s == "Standing Available":
+    elif s == "SDA":
         return "🔸"
-    elif s == "Seats Available":
+    elif s == "SEA":
         return "🔵"
     else:
         return ""
 
 def fetch_buses(stop_id):
-    url = "http://datamall2.mytransport.sg/ltaodataservice/BusArrival?BusStopID=" + stop_id
+    url = "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" + stop_id
     headers = {'AccountKey': LTA_TOKEN}
     r = [grequests.get(url, headers=headers)]
     grequests.map(r, utils.exception_handler)
@@ -37,8 +40,8 @@ def fetch_buses(stop_id):
         for bus in response:
             # TODO, parse time, add hours, strip date, add load status
             ret.append(" ".join(["🚌 " + bus["ServiceNo"] + ":", 
-            parse_time(bus["NextBus"]["EstimatedArrival"]) + " " + load_to_icon(bus["NextBus"]["Load"]), 
-            parse_time(bus["SubsequentBus"]["EstimatedArrival"]) + " " + load_to_icon(bus["SubsequentBus"]["Load"]), 
-            parse_time(bus["SubsequentBus3"]["EstimatedArrival"]) + " " + load_to_icon(bus["SubsequentBus3"]["Load"]) ]))
+            parse_time(bus[NEXT_BUS]["EstimatedArrival"]) + " " + load_to_icon(bus[NEXT_BUS]["Load"]) + " ", 
+            parse_time(bus[NEXT_BUS2]["EstimatedArrival"]) + " " + load_to_icon(bus[NEXT_BUS2]["Load"]) + " ", 
+            parse_time(bus[NEXT_BUS3]["EstimatedArrival"]) + " " + load_to_icon(bus[NEXT_BUS3]["Load"])]))
     
     return "\n".join(ret)
