@@ -38,10 +38,11 @@ def fetch_buses(stop_id):
         return "invalid stop id"
     else:
         for bus in response:
-            # TODO, parse time, add hours, strip date, add load status
-            ret.append(" ".join(["🚌 " + bus["ServiceNo"] + ":", 
-            parse_time(bus[NEXT_BUS]["EstimatedArrival"]) + " " + load_to_icon(bus[NEXT_BUS]["Load"]) + " ", 
-            parse_time(bus[NEXT_BUS2]["EstimatedArrival"]) + " " + load_to_icon(bus[NEXT_BUS2]["Load"]) + " ", 
-            parse_time(bus[NEXT_BUS3]["EstimatedArrival"]) + " " + load_to_icon(bus[NEXT_BUS3]["Load"])]))
+            formatted_string = "🚌 {}: {} ({}) {}  {} ({}) {}  {} ({}) {}".format(bus["ServiceNo"], 
+            parse_time(bus[NEXT_BUS]["EstimatedArrival"]), bus[NEXT_BUS]["Type"], load_to_icon(bus[NEXT_BUS]["Load"]),
+            parse_time(bus[NEXT_BUS2]["EstimatedArrival"]), bus[NEXT_BUS2]["Type"], load_to_icon(bus[NEXT_BUS2]["Load"]),
+            parse_time(bus[NEXT_BUS3]["EstimatedArrival"]), bus[NEXT_BUS3]["Type"], load_to_icon(bus[NEXT_BUS3]["Load"]))
+
+            ret.append(formatted_string)
     
     return "\n".join(ret)
