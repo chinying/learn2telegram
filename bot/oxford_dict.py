@@ -17,13 +17,19 @@ def parse_results(data):
         for idx, senses in enumerate(entry[0]['senses'], start=cumulative_cnt):
             domains = "[{}] ".format(", ".join(senses['domains'])) if 'domains' in senses else ""
             registers = "[{}] ".format(", ".join(senses['registers'])) if 'registers' in senses else ""
-            # print(senses['definitions'], domain, registers)
-            response.append("{}. {}{}{}".format(idx, registers, domains, senses['definitions'][0]))
+            definition = senses['definitions'][0] if 'definitions' in senses else ""
+            if 'definitions' not in senses and 'subsenses' not in senses:
+                if 'crossReferenceMarkers' in senses:
+                    definition = "{}".format(senses['crossReferenceMarkers'][0])
+                else:
+                    continue
+            response.append("{}. {}{}{}".format(idx, registers, domains, definition))
             if 'subsenses' in senses:
                 for subidx, subsense in enumerate(senses['subsenses'], start=1):
-                    domains = "[{}] ".format(", ".join(subsense['domains'])) if 'domains' in senses else ""
-                    response.append('{}.{}. {}{}'.format(idx, subidx, domains, subsense['definitions'][0]))
-            cumulative_cnt=idx+1
+                    domains = "[{}] ".format(", ".join(subsense['domains'])) if 'domains' in subsense else ""
+                    definitions = subsense['definitions'][0] if 'definitions' in subsense else ""
+                    response.append('{}.{}. {}{}'.format(idx, subidx, domains, definitions))
+            cumulative_cnt = idx + 1
 
     return "\n".join(response)
 
