@@ -8,6 +8,9 @@ def extract_flags(text):
     matches = re.findall(pat, text)
     return matches
 
+def surround_brackets(text):
+    return text if text == "" else "({})".format(text)
+
 # Knuth-Morris-Pratt string matching
 # David Eppstein, UC Irvine, 1 Mar 2002
  
