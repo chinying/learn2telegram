@@ -4,7 +4,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram.error import (TelegramError, Unauthorized, BadRequest, 
                             TimedOut, ChatMigrated, NetworkError)
 from dotenv import load_dotenv, find_dotenv
-from bot import wiki, bus, divers, mercury_postlight, duckduckgo, oxford_dict
+from bot import wiki, bus, divers, mercury_postlight, duckduckgo, oxford_dict, weather
 from bot import nlp
 
 load_dotenv(find_dotenv())
@@ -88,7 +88,11 @@ def duck_handler(bot, update, args):
 def oxford_dict_handler(bot, update, args):
     term = " ".join(args)
     reply = oxford_dict.retrieve(term)
-    bot.send_message(chat_id=update.message.chat_id, text=reply) 
+    bot.send_message(chat_id=update.message.chat_id, text=reply)
+
+def weather_handler(bot, update):
+    message = weather.fetch_weather()
+    bot.send_message(chat_id=update.message.chat_id, text=message)
 
 def main():
     updater = Updater(TELEGRAM_TOKEN)
@@ -103,6 +107,7 @@ def main():
     dispatcher.add_handler(CommandHandler('article', mercury_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('answer', duck_handler, pass_args=True))
     dispatcher.add_handler(CommandHandler('dict', oxford_dict_handler, pass_args=True))
+    dispatcher.add_handler(CommandHandler('weather', weather_handler))
 
     echo_handler = MessageHandler(Filters.text, echo)
     dispatcher.add_handler(echo_handler)
