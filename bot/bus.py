@@ -27,6 +27,14 @@ def load_to_icon(s):
     else:
         return ""
 
+def parse_request(req):
+    if len(req) == 5 and req.isdigit():
+        return fetch_buses(req)
+    else:
+        # TODO
+        print("fetch results")
+        return "unknown param"
+
 def fetch_buses(stop_id):
     url = "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" + stop_id
     headers = {'AccountKey': LTA_TOKEN}
