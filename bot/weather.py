@@ -22,6 +22,7 @@ def fetch_weather(params=["Currently"], flush=False):
         url = "https://api.darksky.net/forecast/{}/{}?{}".format(DARKSKY_KEY, latlng, settings)
         r = [grequests.get(url)]
         grequests.map(r, utils.exception_handler)
+        print(r[0], r[0].response)
         res = r[0].response.json()
         ret = res["currently"]
         cached_val = ret
