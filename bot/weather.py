@@ -29,5 +29,5 @@ def fetch_weather(params=["Currently"], flush=False):
     else:
         # TODO clear
         print("using cached value")
-    return "{}\nTemp.: {}\u00B0C\nFeels like: {}\u00B0C".format(ret["summary"], 
-        ret["temperature"], ret["apparentTemperature"])
+    return "{}\nTemp.: {}\u00B0C\nFeels like: {}\u00B0C\nWind: {}, {}\u00B0".format(ret["summary"], 
+        ret["temperature"], ret["apparentTemperature"], ret["windSpeed"], ret["windBearing"])
