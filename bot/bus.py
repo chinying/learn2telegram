@@ -46,11 +46,14 @@ def fetch_buses(stop_id):
     response = r[0].response.json()["Services"]
     stop_name = r[1].response.json()["stops"]
 
+    print(r[0].response.json())
+    ret.append(stop_name[stop_id])
+    
     if len(response) == 0:
         return "invalid stop id"
     else:
         for bus in response:
-            formatted_string = "{}\n🚌 {}: {} {} {}  {} {} {}  {} {} {}".format(stop_name[stop_id], bus["ServiceNo"], 
+            formatted_string = "🚌 {}: {} {} {}  {} {} {}  {} {} {}".format(bus["ServiceNo"], 
             parse_time(bus[NEXT_BUS]["EstimatedArrival"]), utils.surround_brackets(bus[NEXT_BUS]["Type"]), load_to_icon(bus[NEXT_BUS]["Load"]),
             parse_time(bus[NEXT_BUS2]["EstimatedArrival"]), utils.surround_brackets(bus[NEXT_BUS2]["Type"]), load_to_icon(bus[NEXT_BUS2]["Load"]),
             parse_time(bus[NEXT_BUS3]["EstimatedArrival"]), utils.surround_brackets(bus[NEXT_BUS3]["Type"]), load_to_icon(bus[NEXT_BUS3]["Load"]))
