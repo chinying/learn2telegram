@@ -29,7 +29,7 @@ def load_to_icon(s):
         return ""
 
 def parse_request(req):
-    if len(req) == 5 and req.isdigit():
+    if len(req) == 5:
         return fetch_buses(req)
     else:
         # TODO
