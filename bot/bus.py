@@ -44,10 +44,10 @@ def fetch_buses(stop_id):
     grequests.map(r, utils.exception_handler)
     ret = []
     response = r[0].response.json()["Services"]
-    stop_name = r[1].response.json()["stops"]
+    stop_name = r[1].response.json()["stop_name"]
 
-    print(r[0].response.json())
-    ret.append(stop_name[stop_id])
+    # print(r[0].response.json())
+    ret.append(stop_name)
 
     if len(response) == 0:
         return "invalid stop id"
