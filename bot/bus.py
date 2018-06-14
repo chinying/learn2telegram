@@ -39,7 +39,7 @@ def parse_request(req):
 def fetch_buses(stop_id):
     lta_url = "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" + stop_id
     headers = {'AccountKey': LTA_TOKEN}
-    backend_url = BACKEND_URL + "api/fetch_name?id=" + stop_id
+    backend_url = BACKEND_URL + "bus/stop/" + stop_id
     r = [grequests.get(lta_url, headers=headers), grequests.get(backend_url)]
     grequests.map(r, utils.exception_handler)
     ret = []
@@ -48,16 +48,16 @@ def fetch_buses(stop_id):
 
     print(r[0].response.json())
     ret.append(stop_name[stop_id])
-    
+
     if len(response) == 0:
         return "invalid stop id"
     else:
         for bus in response:
-            formatted_string = "🚌 {}: {} {} {}  {} {} {}  {} {} {}".format(bus["ServiceNo"], 
+            formatted_string = "🚌 {}: {} {} {}  {} {} {}  {} {} {}".format(bus["ServiceNo"],
             parse_time(bus[NEXT_BUS]["EstimatedArrival"]), utils.surround_brackets(bus[NEXT_BUS]["Type"]), load_to_icon(bus[NEXT_BUS]["Load"]),
             parse_time(bus[NEXT_BUS2]["EstimatedArrival"]), utils.surround_brackets(bus[NEXT_BUS2]["Type"]), load_to_icon(bus[NEXT_BUS2]["Load"]),
             parse_time(bus[NEXT_BUS3]["EstimatedArrival"]), utils.surround_brackets(bus[NEXT_BUS3]["Type"]), load_to_icon(bus[NEXT_BUS3]["Load"]))
 
             ret.append(formatted_string)
-    
+
     return "\n".join(ret)
